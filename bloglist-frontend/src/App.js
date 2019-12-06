@@ -7,11 +7,13 @@ import blogService from "./services/blogService"
 import loginService from "./services/loginService"
 import BlogForm from "./components/BlogForm"
 import Blog from "./components/Blog"
+import  { useField } from './hooks'
 
 
 function App() {
     const [initialBlogs, setBlogs] = useState([])
-    const [credentials, setCredentials] = useState({ username: "", password:"" })
+    const username = useField("text")
+    const password = useField("password")
     const [user, setUser] = useState(null)
     const [message, setMessage] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
@@ -30,24 +32,22 @@ function App() {
 
     useEffect(() => {
         const user = JSON.parse(window.localStorage.getItem("loggedBloglistappUser"))
+        console.log(user)
         if (user){
+            console.log("tttt")
             setUser(user)
         }
     }, [])
 
-    const handleCredentialChange = (e) => {
-        console.log(e.target)
-        setCredentials({ ...credentials, [e.target.name] : e.target.value })
-    }
-
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            const user = await loginService.login(credentials)
+            const user = await loginService.login({ username: username.value, password: password.value })
             console.log("user", user)
             window.localStorage.setItem("loggedBloglistappUser", JSON.stringify(user))
             setUser(user)
-            setCredentials({ username: "", password:"" })
+            username.reset()
+            password.reset()
             blogService.setToken(user.token)
 
         } catch (exception){
@@ -55,7 +55,8 @@ function App() {
             setErrorMessage("wrong username or password")
             setTimeout(() => {
                 setErrorMessage(null)
-                setCredentials({ username: "", password:"" })
+                username.reset()
+                password.reset()
             }, 3000)
         }
     }
@@ -103,7 +104,7 @@ function App() {
     }
 
     const logout = () => {
-        console.log("perkele")
+    
         window.localStorage.removeItem("loggedBloglistappUser")
 
         setUser(null)
@@ -115,7 +116,7 @@ function App() {
             <div>
                 <h2>Log into application</h2>
                 <Notification message = {message} errorMessage = {errorMessage}/>
-                <LoginForm credentials={credentials} handleLogin={handleLogin} handleCredentialChange={handleCredentialChange}/>
+                <LoginForm username={username} password={password} handleLogin={handleLogin}/>
             </div>
         )
     }

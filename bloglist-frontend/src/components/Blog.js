@@ -20,7 +20,7 @@ const Blog = ({ blog, modifyLikes, deleteBlog }) => {
 
     const hide = { display: !toShow ? "" : "none" }
     const showAll = { display: toShow ? "" : "none" }
-    console.log("username", JSON.parse(window.localStorage.getItem("loggedBloglistappUser")).username)
+
     const adderOftheBlog = JSON.parse(window.localStorage.getItem("loggedBloglistappUser")).username
     console.log("username", adderOftheBlog)
 
