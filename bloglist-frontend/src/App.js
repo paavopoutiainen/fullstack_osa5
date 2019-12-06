@@ -32,9 +32,7 @@ function App() {
 
     useEffect(() => {
         const user = JSON.parse(window.localStorage.getItem("loggedBloglistappUser"))
-        console.log(user)
         if (user){
-            console.log("tttt")
             setUser(user)
         }
     }, [])
@@ -104,11 +102,9 @@ function App() {
     }
 
     const logout = () => {
-    
+
         window.localStorage.removeItem("loggedBloglistappUser")
-
         setUser(null)
-
     }
 
     if (user === null) {

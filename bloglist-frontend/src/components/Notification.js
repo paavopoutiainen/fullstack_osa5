@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Notification = ({ message, errorMessage }) => {
     if (message === null && errorMessage === null){
@@ -11,16 +11,12 @@ const Notification = ({ message, errorMessage }) => {
             </div>
         )
     }
-    
-        return (
-            <div className="error">
-                {errorMessage}
-            </div>
-        )
-    
-    
-        
-    
-};
 
-export default Notification;
+    return (
+        <div className="error">
+            {errorMessage}
+        </div>
+    )
+}
+
+export default Notification
